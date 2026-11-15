@@ -1,0 +1,17 @@
+[project]
+name = "southpark-cast"
+version = "0.1.0"
+description = "Proyecta episodios de southpark.lat en un Google TV de la red local"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pychromecast>=14",
+    "yt-dlp>=2026.10.26",
+]
+
+[project.scripts]
+proyectar = "southpark_cast.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.10,<0.11"]
+build-backend = "uv_build"
