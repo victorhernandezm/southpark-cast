@@ -1,0 +1,6 @@
+# Copia este fichero como config.toml (o ejecuta «uv run buscar»).
+# Dispositivo al que «proyectar» envía el vídeo.
+
+[destino]
+ip = "192.168.1.5"
+nombre = "Entrada"  # solo informativo

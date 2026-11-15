@@ -10,11 +10,34 @@ desde la terminal.
 uv sync
 ```
 
+## Elegir el dispositivo de destino
+
+```sh
+uv run buscar                         # lista los dispositivos Cast por IP y nombre
+uv run buscar --red 192.168.0.0/24    # si tu red no es la que detecta
+```
+
+```
+  #  IP               Nombre
+  1  192.168.1.5      Entrada  ← destino actual
+```
+
+Al final pregunta cuál guardar como destino y lo escribe en `config.toml` (no se
+sube a git). También puedes crearlo a mano a partir de `config.example.toml`:
+
+```toml
+[destino]
+ip = "192.168.1.5"
+```
+
+`buscar` prueba el puerto de Cast (8009) en cada IP de la red en vez de usar mDNS,
+porque mDNS no funciona desde WSL2. En WSL2 toma la red de Windows.
+
 ## Uso
 
 ```sh
 uv run proyectar "https://www.southpark.lat/episodios/..."
-uv run proyectar "https://..." --tv 192.168.1.5   # otra IP
+uv run proyectar "https://..." --tv 192.168.1.7   # otro dispositivo, puntualmente
 ```
 
 | Tecla | Acción |

@@ -2,6 +2,8 @@
 
 Uso:  uv run proyectar URL_DEL_EPISODIO [--tv IP]
 
+La IP del destino se lee de config.toml (créalo con «uv run buscar»).
+
 yt-dlp extrae la lista HLS maestra (vídeo y audio separados) y se envía tal
 cual al receptor multimedia del Google TV, que elige la calidad por sí mismo.
 Se conecta por IP directa al puerto 8009, así que funciona desde WSL2 sin mDNS.
@@ -18,7 +20,7 @@ import uuid
 import pychromecast
 import yt_dlp
 
-TV_POR_DEFECTO = "192.168.1.5"  # «Entrada»
+from . import config
 
 
 def extraer(url):
@@ -37,15 +39,18 @@ def extraer(url):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("url")
-    ap.add_argument("--tv", default=TV_POR_DEFECTO, help="IP del Google TV")
+    ap.add_argument("--tv", help=f"IP del Google TV (por defecto, la de {config.RUTA.name})")
     args = ap.parse_args()
+    tv = args.tv or config.ip_destino()
+    if not tv:
+        sys.exit(f"No hay destino configurado. Ejecuta «uv run buscar» o edita {config.RUTA}.")
 
     print("Extrayendo vídeo…")
     titulo, miniatura, manifiesto = extraer(args.url)
     print(f"  {titulo}")
 
-    print(f"Conectando con {args.tv}…")
-    cc = pychromecast.get_chromecast_from_host((args.tv, 8009, uuid.uuid4(), None, None))
+    print(f"Conectando con {tv}…")
+    cc = pychromecast.get_chromecast_from_host((tv, 8009, uuid.uuid4(), None, None))
     cc.wait(timeout=15)
     if cc.app_id:  # si hay otra app abierta (p. ej. Spotify) no se abre el receptor
         cc.quit_app()
