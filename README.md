@@ -155,7 +155,6 @@ config.example.toml
 
 ## Limitaciones
 
-- El audio y los subtítulos son los que ofrece la web; en los episodios probados
-  solo había inglés americano.
+- El audio y los subtítulos son los que ofrece la web.
 - Solo se ha probado con southpark.lat. Otras páginas que `yt-dlp` reconozca y
   sirvan HLS sin DRM probablemente funcionen, pero no está garantizado.
